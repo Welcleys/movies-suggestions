@@ -1,23 +1,46 @@
 <?php
-require_once __DIR__ . '/config/config.php';
-require_once __DIR__ . '/config/autoload.php';
+
+require_once __DIR__ . '/generic/config.php';
+require_once __DIR__ . '/generic/autoload.php';
 
 $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
-
 $route = str_replace(BASE_URL, '', $uri);
-
 $parts = explode('/', trim($route, '/'));
 
-$controller = $parts[0] ?? 'filmes';
-$action     = $parts[1] ?? 'listar';
+$controllerMap = [
+    'filmes' => 'FilmeController',
+    'categorias' => 'CategoriaController',
+    'avaliacoes' => 'AvaliacaoController',
+];
 
-$file = __DIR__ . "/public/{$controller}/{$action}.php";
+$routeController = $parts[0] ?? 'filmes';
+$controllerName = $controllerMap[$routeController] ?? null;
+$actionName = $parts[1] ?? 'index';
 
-if (file_exists($file)) {
-    require $file;
-} else {
+if ($controllerName === null) {
     http_response_code(404);
     require __DIR__ . "/view/header.php";
-    echo "<h1>Página em costrução!</h1>";
+    echo "<h1>Aplicação em construção!</h1>";
     require __DIR__ . "/view/footer.php";
+    return;
 }
+
+if (!class_exists($controllerName)) {
+    http_response_code(404);
+    require __DIR__ . "/view/header.php";
+    echo "<h1>Erro 404: Controller não encontrado!</h1>";
+    require __DIR__ . "/view/footer.php";
+    return;
+}
+
+$controller = new $controllerName();
+
+if (!method_exists($controller, $actionName)) {
+    http_response_code(404);
+    require __DIR__ . "/view/header.php";
+    echo "<h1>Erro 404: Ação não encontrada!</h1>";
+    require __DIR__ . "/view/footer.php";
+    return;
+}
+
+$controller->$actionName();

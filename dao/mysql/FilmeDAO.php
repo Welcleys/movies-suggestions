@@ -8,6 +8,13 @@ class FilmeDAO
         $this->pdo = MysqlSingleton::getInstance()->getConnection();
     }
 
+    public function buscarPorId($id)
+    {
+        $stmt = $this->pdo->prepare("SELECT * FROM filmes WHERE id = ?");
+        $stmt->execute([$id]);
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+    
     public function listar()
     {
         $stmt = $this->pdo->query("SELECT * FROM filmes");

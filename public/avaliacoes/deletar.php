@@ -1,4 +1,7 @@
 <?php
+
+require_once __DIR__ . "/../../controller/AvaliacoesController.php";
+
 $controller = new AvaliacaoController();
 
 if (isset($_GET['id'])) {

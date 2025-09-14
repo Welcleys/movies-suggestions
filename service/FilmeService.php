@@ -8,6 +8,14 @@ class FilmeService
         $this->dao = new FilmeDAO();
     }
 
+    public function buscarFilmePorId($id)
+    {
+        if (!is_numeric($id) || $id <= 0) {
+            return null;
+        }
+        return $this->dao->buscarPorId($id);
+    }
+
     public function listar()
     {
         return $this->dao->listar();

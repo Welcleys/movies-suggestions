@@ -8,25 +8,32 @@ class FilmeController
         $this->service = new FilmeService();
     }
 
-    // Listar todos os filmes
     public function index()
     {
-        return $this->service->listar();
+        $this->listar();
+    } 
+    
+    public function listar()
+    {
+        $filmes = $this->service->listar();
+        require_once __DIR__ . '/../public/filmes/listar.php';
     }
 
-    // Criar um novo filme
+    public function buscarPorId($id)
+    {
+        return $this->service->buscarFilmePorId($id);
+    }
+
     public function criar($titulo, $ano_lancamento, $tempo_duracao)
     {
         return $this->service->criar($titulo, $ano_lancamento, $tempo_duracao);
     }
 
-    // Atualizar um filme
     public function atualizar($id, $titulo, $ano_lancamento, $tempo_duracao)
     {
         return $this->service->atualizar($id, $titulo, $ano_lancamento, $tempo_duracao);
     }
 
-    // Deletar um filme
     public function deletar($id)
     {
         return $this->service->deletar($id);

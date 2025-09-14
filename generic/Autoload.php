@@ -1,12 +1,16 @@
 <?php
-spl_autoload_register(function ($class) { 
+// autoload.php
+
+spl_autoload_register(function ($class) {
     $paths = [
         __DIR__ . '/../controller/',
-        __DIR__ . '/../dao/',
+        __DIR__ . '/../dao/mysql/',
+        __DIR__ . '/../generic/', 
         __DIR__ . '/../service/',
-        __DIR__ . '/../public/',
+        __DIR__ . '/../public/avaliacoes/',
+        __DIR__ . '/../public/categorias/',
+        __DIR__ . '/../public/filmes/',
         __DIR__ . '/../view/',
-        __DIR__ . '/../config/',
     ];
 
     foreach ($paths as $path) {

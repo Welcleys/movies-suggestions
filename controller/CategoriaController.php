@@ -1,4 +1,5 @@
 <?php
+
 class CategoriaController
 {
     private $service;
@@ -10,7 +11,13 @@ class CategoriaController
 
     public function index()
     {
-        return $this->service->listar();
+        $this->listar();
+    }
+
+     public function listar()
+    {
+        $categorias = $this->service->listar();
+       require_once __DIR__ . '/../public/categorias/listar.php';
     }
 
     public function criar($nome)
