@@ -1,5 +1,4 @@
 <?php
-
 class CategoriaController
 {
     private $service;
@@ -20,18 +19,43 @@ class CategoriaController
        require_once __DIR__ . '/../public/categorias/listar.php';
     }
 
-    public function criar($nome)
+    public function adicionar()
     {
-        return $this->service->criar($nome);
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $this->service->criar($_POST['nome']);
+            header("Location: " . BASE_URL . "categorias/listar");
+            exit;
+        }
+        require_once __DIR__ . '/../public/categorias/adicionar.php';
     }
 
-    public function atualizar($id, $nome)
+    public function atualizar()
     {
-        return $this->service->atualizar($id, $nome);
+        $id = $_GET['id'] ?? null;
+        if (!$id) {
+            header("Location: " . BASE_URL . "categorias/listar");
+            exit;
+        }
+
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $this->service->atualizar($id, $_POST['nome']);
+            header("Location: " . BASE_URL . "categorias/listar");
+            exit;
+        }
+
+        $categoria = $this->service->buscarCategoriaPorId($id);
+        require_once __DIR__ . '/../public/categorias/editar.php';;
     }
 
-    public function deletar($id)
+    public function deletar()
     {
-        return $this->service->deletar($id);
+        $id = $_GET['id'] ?? null;
+
+        if ($id) {
+            $this->service->deletar($id);
+        }
+
+        header("Location: " . BASE_URL . "categorias/listar");
+        exit;
     }
 }

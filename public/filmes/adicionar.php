@@ -6,7 +6,7 @@ $controller = new FilmeController();
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
  
-    $controller->criar($_POST['titulo'], $_POST['ano_lancamento'], $_POST['tempo_duracao']);
+    $controller->adicionar($_POST['titulo'], $_POST['ano_lancamento'], $_POST['tempo_duracao']);
     
     header("Location: " . BASE_URL . "filmes/listar");
     exit;

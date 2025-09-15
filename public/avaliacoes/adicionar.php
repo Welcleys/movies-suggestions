@@ -1,19 +1,5 @@
 <?php
-
 require_once __DIR__ . "/../../view/header.php";
-
-$controller = new AvaliacaoController();
-$filmeController = new FilmeController();
-$categoriaController = new CategoriaController();
-
-$filmes = $filmeController->index();
-$categorias = $categoriaController->index();
-
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $controller->criar($_POST['filme_id'], $_POST['categoria_id'], $_POST['nota']);
-    header("Location: " . BASE_URL . "avaliacoes/listar");
-    exit;
-}
 ?>
 
 <h1>Adicionar Avaliação</h1>

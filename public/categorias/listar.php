@@ -16,8 +16,8 @@ require_once __DIR__ . "/../../view/header.php";
         <td><?= $categoria['id'] ?></td>
         <td><?= htmlspecialchars($categoria['nome']) ?></td>
         <td>
-            <a href="<?= BASE_URL ?>categorias/editar/<?= $categoria['id'] ?>">Editar</a>
-            <a href="<?= BASE_URL ?>categorias/deletar/<?= $categoria['id'] ?>" onclick="return confirm('Deseja excluir esta categoria?')">Excluir</a>
+            <a href="<?= BASE_URL ?>categorias/atualizar?id=<?= $categoria['id'] ?>">Editar</a>
+            <a href="<?= BASE_URL ?>categorias/deletar?id=<?= $categoria['id'] ?>" onclick="return confirm('Deseja excluir esta categoria?')">Excluir</a>
         </td>
     </tr>
     <?php endforeach; ?>
