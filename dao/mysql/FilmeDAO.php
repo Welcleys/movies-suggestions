@@ -1,41 +1,36 @@
 <?php
-class FilmeDAO
-{
-    private $pdo;
+namespace dao\mysql;
 
-    public function __construct()
-    {
-        $this->pdo = MysqlSingleton::getInstance()->getConnection();
-    }
+use dao\IFilmeDAO;
+use generic\MysqlFactory;
 
-    public function buscarPorId($id)
-    {
-        $stmt = $this->pdo->prepare("SELECT * FROM filmes WHERE id = ?");
-        $stmt->execute([$id]);
-        return $stmt->fetch(PDO::FETCH_ASSOC);
-    }
+class FilmeDAO extends MysqlFactory implements IFilmeDAO {
     
-    public function listar()
-    {
-        $stmt = $this->pdo->query("SELECT * FROM filmes");
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    public function inserir($filme) {
+        $sql = "INSERT INTO filmes (nome, genero, classificacao, duracao) VALUES (?, ?, ?, ?)";
+        $params = [$filme->getNome(), $filme->getGenero(), $filme->getClassificacao(), $filme->getDuracao()];
+        return $this->banco->executar($sql, $params);
     }
 
-    public function criar($titulo, $ano_lancamento, $tempo_duracao)
-    {
-        $stmt = $this->pdo->prepare("INSERT INTO filmes (titulo, ano_lancamento, tempo_duracao) VALUES (?, ?, ?)");
-        return $stmt->execute([$titulo, $ano_lancamento, $tempo_duracao]);
+    public function atualizar($filme) {
+        $sql = "UPDATE filmes SET nome = ?, genero = ?, classificacao = ?, duracao = ? WHERE id = ?";
+        $params = [$filme->getNome(), $filme->getGenero(), $filme->getClassificacao(), $filme->getDuracao(), $filme->getId()];
+        return $this->banco->executar($sql, $params);
     }
 
-    public function atualizar($id, $titulo, $ano_lancamento, $tempo_duracao)
-    {
-        $stmt = $this->pdo->prepare("UPDATE filmes SET titulo = ?, ano_lancamento = ?, tempo_duracao = ? WHERE id = ?");
-        return $stmt->execute([$titulo, $ano_lancamento, $tempo_duracao, $id]);
+    public function listar() {
+        $sql = "SELECT * FROM filmes";
+        return $this->banco->executar($sql);
     }
 
-    public function deletar($id)
-    {
-        $stmt = $this->pdo->prepare("DELETE FROM filmes WHERE id = ?");
-        return $stmt->execute([$id]);
+    public function listarId($id) {
+        $sql = "SELECT * FROM filmes WHERE id = ?";
+        $retorno = $this->banco->executar($sql, [$id]);
+        return count($retorno) > 0 ? $retorno[0] : null;
+    }
+
+    public function deletar($id) {
+        $sql = "DELETE FROM filmes WHERE id = ?";
+        return $this->banco->executar($sql, [$id]);
     }
 }

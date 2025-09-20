@@ -1,38 +1,25 @@
 <?php
-class FilmeService
-{
-    private $dao;
+namespace service;
 
-    public function __construct()
-    {
-        $this->dao = new FilmeDAO();
+use dao\mysql\FilmeDAO;
+
+class FilmeService extends FilmeDAO {
+    public function listarFilme(){
+
+        return parent::listar();
     }
 
-    public function buscarFilmePorId($id)
-    {
-        if (!is_numeric($id) || $id <= 0) {
-            return null;
-        }
-        return $this->dao->buscarPorId($id);
+    public function inserir($filme){
+        return parent::inserir($filme);
     }
 
-    public function listar()
-    {
-        return $this->dao->listar();
+    public function atualizar($filme){
+        return parent::atualizar($filme);
     }
-
-    public function criar($titulo, $ano_lancamento, $tempo_duracao)
-    {
-        return $this->dao->criar($titulo, $ano_lancamento, $tempo_duracao);
+    public function listarId($id){
+        return parent::listarId($id);
     }
-
-    public function atualizar($id, $titulo, $ano_lancamento, $tempo_duracao)
-    {
-        return $this->dao->atualizar($id, $titulo, $ano_lancamento, $tempo_duracao);
-    }
-
-    public function deletar($id)
-    {
-        return $this->dao->deletar($id);
+    public function deletar($id){
+        return parent::deletar($id);
     }
 }

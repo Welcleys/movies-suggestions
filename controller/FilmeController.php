@@ -1,58 +1,59 @@
 <?php
-class FilmeController
-{
-    private $service;
+namespace controller;
 
-    public function __construct()
-    {
-        $this->service = new FilmeService();
+use service\FilmeService;
+use template\FilmeTemp;
+use template\ITemplate;
+
+class Filme{
+
+    private ITemplate $template;
+    private function __construct(){
+
+        $this->template = new FilmeTemp();
     }
-
-    public function index()
-    {
-        $this->listar();
-    } 
     
-    public function listar()
-    {
-        $filmes = $this->service->listar();
-        require_once __DIR__ . '/../public/filmes/listar.php';
+    public function listar(){
+
+        $service = new FilmeService();
+        $resultado = $service->listarFilme();
+        $this->template->layout("\\public\\filme\\listar.php",$resultado);
+    }
+    public function inserir(){
+        $nome = $_POST['nome'];
+        $genero = $_POST['genero'];
+        $classificacao = $_POST['classificacao'];
+        $duracao = $_POST['duracao'];
+
+        $service = new FilmeService();
+        $service->inserir($filme);
+        header("Location: /filme/listar");
     }
 
-    public function adicionar()
-    {
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $this->service->criar(
-                $_POST['titulo'],
-                $_POST['ano_lancamento'],
-                $_POST['tempo_duracao']
-            );
-            
-            header("Location: " . BASE_URL . "filmes/listar");
-            exit;
-        }
-        require_once __DIR__ . '/../public/filmes/adicionar.php';
+    public function atualizar(){
+        $id = $_POST['id'];
+        $nome = $_POST['nome'];
+        $genero = $_POST['genero'];
+        $classificacao = $_POST['classificacao'];
+        $duracao = $_POST['duracao'];
+
+        $service = new FilmeService();
+        $service->atualizar($filme);
+        header("Location: /filme/listar");
     }
 
-    public function buscarPorId($id)
-    {
-        return $this->service->buscarFilmePorId($id);
+    public function listarId($id){
+        $service = new FilmeService();
+        return $service->listarId($id);
     }
 
-    public function atualizar($id, $titulo, $ano_lancamento, $tempo_duracao)
-    {
-        return $this->service->atualizar($id, $titulo, $ano_lancamento, $tempo_duracao);
+    public function deletar($id){
+        $service = new FilmeService();
+        $service->deletar($id);
+        header("Location: /filme/listar");
     }
 
-    public function deletar()
-    {
-        $id = $_GET['id'] ?? null;
-
-        if ($id) {
-            $this->service->deletar($id);
-        }
-
-        header("Location: " . BASE_URL . "filmes/listar");
-        exit;
+    public static function getInstance(){
+        return new Filme();
     }
 }
