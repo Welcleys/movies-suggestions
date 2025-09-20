@@ -1,5 +1,5 @@
 <?php
-namespace service; // <-- O namespace agora é 'service'
+namespace service;
 
 class Filme {
     private ?int $id;

@@ -1,5 +1,4 @@
 <?php
-
 namespace generic;
 
 use dao\mysql\AvaliacaoDAO;

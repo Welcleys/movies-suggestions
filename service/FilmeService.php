@@ -3,7 +3,6 @@ namespace service;
 
 use generic\MysqlFactory;
 use dao\IFilmeDAO;
-// use service\Filme; // A importação é opcional, pois estão no mesmo namespace
 
 class FilmeService {
     

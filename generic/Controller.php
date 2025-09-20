@@ -1,30 +1,4 @@
 <?php
-/*namespace generic;
-
-class Controller{
-    private $arrChamadas =[];
-    public function __construct(){
-
-        $this->arrChamadas = [
-            ""=> new Acao("Home", "index"),
-            "filme/listar"=> new Acao("FilmeController","listarTodos"),
-             "filme/inserir"=> new Acao('FilmeController', 'inserir'), // Supondo que o método seja 'inserir'
-            "filme/editar"=> new Acao('FilmeController', 'editar'),   // Supondo que o método seja 'editar'
-            "filme/excluir"=> new Acao('FilmeController', 'excluir'), // Supondo que o método seja 'excluir'
-        ];
-    }
-
-    public function verificarChamadas($rota){
-        if(isset($this->arrChamadas[$rota])){          
-            $acao = $this->arrChamadas[$rota];
-            $acao->executar();
-            return;
-        }
-        // Adicionar um tratamento para rotas não encontradas é uma boa ideia
-        echo "Erro 404: Rota não encontrada.";
-    }
-}*/
-
 namespace generic;
 
 class Controller
@@ -33,18 +7,21 @@ class Controller
 
     public function __construct()
     {
-        // Seu mapa de rotas continua o mesmo, definindo as rotas BASE
         $this->arrChamadas = [
             "" => new Acao("Home", "index"),
-            "filme/listar" => new Acao("FilmeController", "listar"),
-            "filme/adicionar" => new Acao("FilmeController", "adicionar"),
-            "filme/salvar" => new Acao("FilmeController", "salvar"),
-            "filme/editar" => new Acao("FilmeController", "editar"),
-            "filme/excluir" => new Acao("FilmeController", "excluir"),
-            "filme/form" => new Acao("FilmeController", "form"),
-            // Adicione aqui as rotas para Categoria e Avaliação...
-            "categoria/listar" => new Acao("CategoriaController", "listar"),
-            // etc.
+            "filme/listar" => new Acao("Filme", "listar"),
+            "filme/salvar" => new Acao("Filme", "salvar"),
+            "filme/excluir" => new Acao("Filme", "excluir"),
+            "filme/form" => new Acao("Filme", "form"),
+            "categoria/listar" => new Acao("Categoria", "listar"),
+            "categoria/form" => new Acao("Categoria", "form"),
+            "categoria/salvar" => new Acao("Categoria", "salvar"),
+            "categoria/excluir" => new Acao("Categoria", "excluir"),
+            "avaliacao/listar" => new Acao("Avaliacao", "listar"),
+            "avaliacao/form" => new Acao("Avaliacao", "form"),
+            "avaliacao/salvar" => new Acao("Avaliacao", "salvar"),
+            "avaliacao/excluir" => new Acao("Avaliacao", "excluir"),
+            "avaliacao/get-categoria-do-filme" => new Acao("Avaliacao", "getCategoriaDoFilme"),
         ];
     }
 

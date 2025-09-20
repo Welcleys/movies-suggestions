@@ -1,15 +1,17 @@
-<h2><?= isset($parametro) && $parametro->getId() ? "Editar Categoria" : "Cadastrar Categoria" ?></h2>
+<?php 
+$isEditing = isset($categoria) && $categoria->getId(); 
+?>
 
-<form method="post" action="/movies-suggestions/categoria/<?= isset($parametro) && $parametro->getId() ? "atualizar" : "salvar" ?>">
+<h1><?= $isEditing ? "Editar Categoria" : "Adicionar Nova Categoria" ?></h1>
 
-    <?php if (isset($parametro) && $parametro->getId()): ?>
-        <input type="hidden" name="id" value="<?= htmlspecialchars($parametro->getId()) ?>">
+<form action="<?=url("categoria/salvar") ?>" method="POST">
+
+    <?php if ($isEditing): ?>
+        <input type="hidden" name="id" value="<?= $categoria->getId() ?>">
     <?php endif; ?>
 
-    <label for="nome">Nome da Categoria:</label><br>
-    <input type="text" id="nome" name="nome" 
-           value="<?= isset($parametro) ? htmlspecialchars($parametro->getNome()) : "" ?>" required><br><br>
+    <label>Nome:</label><br>
+    <input type="text" name="nome" required value="<?= $isEditing ? htmlspecialchars($categoria->getNome()) : "" ?>"><br><br>
 
     <button type="submit">Salvar</button>
-    <a href="/movies-suggestions/categoria/listar">Cancelar</a>
 </form>

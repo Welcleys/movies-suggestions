@@ -1,5 +1,17 @@
+<?php 
+    session_start(); 
+    if (isset($_SESSION["mensagem"])): 
+?>
+    <div style="padding: 15px; background-color: #d4edda; color: #155724; border: 1px solid #c3e6cb; border-radius: 4px; margin-bottom: 10px;">
+        <?= $_SESSION["mensagem"] ?>
+    </div>
+<?php 
+    // Limpa a mensagem para que não apareça de novo
+    unset($_SESSION["mensagem"]); 
+    endif; 
+?>
 <h1>Lista de Filmes</h1>
-<a href="index.php?param=filme/form">Adicionar Novo Filme</a>
+<a href="<?= url("filme/form") ?>">Adicionar Novo Filme</a>
 <hr>
 <table border="1" width="100%">
     <tbody>
@@ -9,10 +21,13 @@
                 <td><?= htmlspecialchars($filme->getTitulo()) ?></td>
                 <td><?= $filme->getAnoLancamento() ?></td>
                 <td>
-                    <a href="index.php?param=filme/form/<?= $filme->getId() ?>">Editar</a>
-                    <a href="index.php?param=filme/excluir/<?= $filme->getId() ?>" onclick="return confirm('Tem certeza?');">Excluir</a>
+                    <a href="<?= url("filme/form/" . $filme->getId()) ?>">Editar</a>
+                    <a href="<?= url("filme/excluir/" . $filme->getId()) ?>" onclick="return confirm('Tem certeza?');">Excluir</a>
                 </td>
             </tr>
         <?php endforeach; ?>
     </tbody>
 </table>
+<br>
+<br>
+<a href="<?= url() ?>">Ir para a Página Inicial</a>

@@ -1,26 +1,41 @@
-<a href="/movies-suggestions/avaliacao/formulario">Cadastrar Nova Avaliação</a>
-
-<table border="1" cellspacing="0" cellpadding="5">
-    <tr>
-        <th>ID</th>
-        <th>Filme</th>
-        <th>Nota</th>
-        <th>Ações</th>
-    </tr>
-
-    <?php if (!empty($parametro)): ?>
-        <?php foreach ($parametro as $a): ?>
+<?php 
+    session_start(); 
+    if (isset($_SESSION["mensagem"])): 
+?>
+    <div style="padding: 15px; background-color: #d4edda; color: #155724; border: 1px solid #c3e6cb; border-radius: 4px; margin-bottom: 10px;">
+        <?= $_SESSION["mensagem"] ?>
+    </div>
+<?php 
+    // Limpa a mensagem para que não apareça de novo
+    unset($_SESSION["mensagem"]); 
+    endif; 
+?>
+<h1>Lista de Avaliações</h1>
+<a href="<?= url("avaliacao/form") ?>">Adicionar Nova Avaliação</a>
+<hr>
+<table border="1" width="100%">
+    <thead>
+        <tr>
+            <th>Filme</th>
+            <th>Categoria</th>
+            <th>Nota</th>
+            <th>Ações</th>
+        </tr>
+    </thead>
+    <tbody>
+        <?php foreach ($listaDeAvaliacoes as $avaliacao): ?>
             <tr>
-                <td><?= htmlspecialchars($a->getId()) ?></td>
-                <td><?= htmlspecialchars($a->getFilmeId()) ?></td>
-                <td><?= htmlspecialchars($a->getNota()) ?></td>
+                <td><?= htmlspecialchars($avaliacao->getFilmeTitulo()) ?></td>
+                <td><?= htmlspecialchars($avaliacao->getCategoriaNome()) ?></td>
+                <td><?= $avaliacao->getNota() ?></td>
                 <td>
-                    <a href="/movies-suggestions/avaliacao/formulario?id=<?= $a->getId() ?>">Editar</a> | 
-                    <a href="/movies-suggestions/avaliacao/excluir?id=<?= $a->getId() ?>" onclick="return confirm('Tem certeza que deseja excluir esta avaliação?')">Excluir</a>
+                    <a href="<?= url("avaliacao/form/" .  $avaliacao->getId()) ?>">Editar</a>
+                    <a href="<?= url("avaliacao/excluir/" . $avaliacao->getId()) ?>" onclick="return confirm('Tem certeza?');">Excluir</a>
                 </td>
             </tr>
         <?php endforeach; ?>
-    <?php else: ?>
-        <tr><td colspan="4">Nenhuma avaliação encontrada.</td></tr>
-    <?php endif; ?>
+    </tbody>
 </table>
+<br>
+<br>
+<a href="<?= url() ?>">Voltar para a Página Inicial</a>
