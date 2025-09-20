@@ -1,5 +1,5 @@
 <?php
-namespace controller;
+/*namespace controller;
 
 use service\FilmeService;
 use template\FilmeTemp;
@@ -55,5 +55,35 @@ class Filme{
 
     public static function getInstance(){
         return new Filme();
+    }
+}*/
+
+namespace controller;
+
+use generic\MysqlFactory; // <-- Use a sua Factory!
+
+class FilmeController {
+
+    public function listarTodos() {
+        // Peça para a Factory criar o DAO para você.
+        $filmeDAO = MysqlFactory::createFilmeDAO();
+
+        // Use o DAO normalmente
+        $listaDeFilmes = $filmeDAO->listar();
+
+        // ... aqui você chamaria a sua view para renderizar a lista ...
+        require 'path/to/your/view/listar.php';
+    }
+
+    public function deletarFilme($id) {
+        $filmeDAO = MysqlFactory::createFilmeDAO();
+        $linhasAfetadas = $filmeDAO->deletar($id);
+
+        if ($linhasAfetadas > 0) {
+            echo "Filme deletado com sucesso!";
+        } else {
+            echo "Filme não encontrado.";
+        }
+        // ... redirecionar para a página de listagem ...
     }
 }
