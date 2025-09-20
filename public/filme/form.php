@@ -1,30 +1,18 @@
-<h2><?= isset($parametro) && $parametro->getId() ? "Editar Filme" : "Cadastrar Filme" ?></h2>
+<?php $isEditing = isset($filme) && $filme->getId(); ?>
 
-<form method="post" action="/movies-suggestions/filme/<?= isset($parametro) && $parametro->getId() ? "atualizar" : "salvar" ?>">
+<h1><?= $isEditing ? 'Editar Filme' : 'Adicionar Novo Filme' ?></h1>
 
-    <?php if (isset($parametro) && $parametro->getId()): ?>
-        <input type="hidden" name="id" value="<?= htmlspecialchars($parametro->getId()) ?>">
+<form action="index.php?param=filme/salvar" method="POST">
+    
+    <?php if($isEditing): ?>
+        <input type="hidden" name="id" value="<?= $filme->getId() ?>">
     <?php endif; ?>
 
-    <label for="nome">Nome:</label><br>
-    <input type="text" id="nome" name="nome"
-        value="<?= isset($parametro) ? htmlspecialchars($parametro->getNome()) : "" ?>" required><br><br>
-
-    <label for="ano_lancamento">Ano de Lançamento:</label><br>
-    <input type="text" id="ano_lancamento" name="ano_lancamento"
-        value="<?= isset($parametro) ? htmlspecialchars($parametro->getAnoLancamento()) : "" ?>" required><br><br>
-
-    <label for="categoria_id">Categoria:</label><br>
-    <select id="categoria_id" name="categoria_id" required>
-        <option value="">-- Selecione --</option>
-        <?php foreach ($categorias as $categoria): ?>
-            <option value="<?= $categoria->getId() ?>"
-                <?= isset($parametro) && $parametro->getCategoriaId() == $categoria->getId() ? "selected" : "" ?>>
-                <?= htmlspecialchars($categoria->getNome()) ?>
-            </option>
-        <?php endforeach; ?>
-    </select><br><br>
-
+    <label>Título:</label><br>
+    <input type="text" name="titulo" required value="<?= $isEditing ? htmlspecialchars($filme->getTitulo()) : '' ?>"><br><br>
+    
+    <label>Ano de Lançamento:</label><br>
+    <input type="number" name="ano_lancamento" value="<?= $isEditing ? htmlspecialchars($filme->getAnoLancamento()) : '' ?>"><br><br>
+    
     <button type="submit">Salvar</button>
-    <a href="/movies-suggestions/filme/listar">Cancelar</a>
 </form>

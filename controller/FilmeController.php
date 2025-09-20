@@ -60,30 +60,85 @@ class Filme{
 
 namespace controller;
 
-use generic\MysqlFactory; // <-- Use a sua Factory!
+use service\FilmeService;
+use service\Filme; // Lembre-se que nossa classe Filme está no namespace 'service'
 
 class FilmeController {
 
-    public function listarTodos() {
-        // Peça para a Factory criar o DAO para você.
-        $filmeDAO = MysqlFactory::createFilmeDAO();
+    private FilmeService $service;
 
-        // Use o DAO normalmente
-        $listaDeFilmes = $filmeDAO->listar();
-
-        // ... aqui você chamaria a sua view para renderizar a lista ...
-        require 'path/to/your/view/listar.php';
+    /**
+     * O construtor é chamado automaticamente quando o Controller é criado.
+     * Ele prepara as dependências que a classe irá usar.
+     */
+    public function __construct() {
+        $this->service = new FilmeService();
+    }
+    
+    /**
+     * Ação: LISTAR
+     * Busca todos os filmes através do serviço e carrega a view de listagem.
+     */
+    public function listar() {
+        // O service nos retorna um array de objetos 'Filme'
+        $listaDeFilmes = $this->service->listarTodos();
+        
+        // O require_once torna a variável $listaDeFilmes disponível dentro da view
+        require_once 'public/filme/listar.php';
     }
 
-    public function deletarFilme($id) {
-        $filmeDAO = MysqlFactory::createFilmeDAO();
-        $linhasAfetadas = $filmeDAO->deletar($id);
-
-        if ($linhasAfetadas > 0) {
-            echo "Filme deletado com sucesso!";
-        } else {
-            echo "Filme não encontrado.";
+    /**
+     * Ação: EXCLUIR
+     * Recebe um ID da URL, manda o serviço deletar e redireciona para a lista.
+     */
+    public function excluir(int $id) {
+        $this->service->deletar($id);
+        
+        // É uma boa prática redirecionar após uma ação de POST, PUT ou DELETE
+        header('Location: index.php?param=filme/listar');
+        exit; // Garante que o script pare a execução após o redirecionamento
+    }
+    
+    /**
+     * Ação: EXIBIR FORMULÁRIO
+     * Exibe o formulário para adicionar um novo filme ou para editar um existente.
+     */
+    public function form(?int $id = null) {
+        $filme = null;
+        if ($id) {
+            // Se um ID foi passado, busca o filme para preencher o formulário
+            $filme = $this->service->buscarPorId($id);
+            if (!$filme) {
+                // Se o filme não for encontrado, redireciona ou mostra erro
+                echo "Filme não encontrado!";
+                exit;
+            }
         }
-        // ... redirecionar para a página de listagem ...
+        // Carrega a view do formulário. A variável $filme estará disponível lá
+        // (seja com os dados do filme ou como null)
+        require_once 'public/filme/form.php';
+    }
+
+    /**
+     * Ação: SALVAR
+     * Processa os dados enviados pelo formulário (tanto para inserir quanto para atualizar).
+     */
+    public function salvar() {
+        // 1. Cria um objeto Filme e o preenche com os dados do formulário ($_POST)
+        $filme = new Filme();
+        $filme->setTitulo($_POST['titulo'] ?? '');
+        $filme->setAnoLancamento((int)($_POST['ano_lancamento'] ?? 0));
+        
+        // 2. Se for uma edição, o ID virá em um campo oculto no formulário
+        if (isset($_POST['id']) && !empty($_POST['id'])) {
+            $filme->setId((int)$_POST['id']);
+        }
+        
+        // 3. Manda o serviço salvar o objeto Filme (o serviço decide se é INSERT ou UPDATE)
+        $this->service->salvar($filme);
+        
+        // 4. Redireciona para a página de listagem
+        header('Location: index.php?param=filme/listar');
+        exit;
     }
 }

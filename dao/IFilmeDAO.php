@@ -1,10 +1,12 @@
 <?php
 namespace dao;
 
-interface IFilmeDAO{
-    public function inserir($filme);
-    public function atualizar($filme);
-    public function listar();
-    public function listarId($id);
-    public function deletar($id);
-    public function alterar($id,$filme);}
+use service\Filme;
+
+interface IFilmeDAO {
+    public function inserir(Filme $filme);
+    public function atualizar(Filme $filme);
+    public function deletar(int $id);
+    public function buscarTodos(): array; // Mais claro que 'listar'
+    public function buscarPorId(int $id): ?Filme; // Mais claro que 'listarId'
+}

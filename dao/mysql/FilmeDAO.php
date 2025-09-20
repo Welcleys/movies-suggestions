@@ -1,102 +1,87 @@
 <?php
-/*namespace dao\mysql;
-
-use dao\IFilmeDAO;
-use generic\MysqlFactory;
-
-class FilmeDAO extends MysqlFactory implements IFilmeDAO {
-    
-    public function inserir($filme) {
-        $sql = "INSERT INTO filmes (nome, genero, classificacao, duracao) VALUES (?, ?, ?, ?)";
-        $params = [$filme->getNome(), $filme->getGenero(), $filme->getClassificacao(), $filme->getDuracao()];
-        return $this->banco->executar($sql, $params);
-    }
-
-    public function atualizar($filme) {
-        $sql = "UPDATE filmes SET nome = ?, genero = ?, classificacao = ?, duracao = ? WHERE id = ?";
-        $params = [$filme->getNome(), $filme->getGenero(), $filme->getClassificacao(), $filme->getDuracao(), $filme->getId()];
-        return $this->banco->executar($sql, $params);
-    }
-
-    public function listar() {
-        $sql = "SELECT * FROM filmes";
-        return $this->banco->executar($sql);
-    }
-
-    public function listarId($id) {
-        $sql = "SELECT * FROM filmes WHERE id = ?";
-        $retorno = $this->banco->executar($sql, [$id]);
-        return count($retorno) > 0 ? $retorno[0] : null;
-    }
-
-    public function deletar($id) {
-        $sql = "DELETE FROM filmes WHERE id = ?";
-        return $this->banco->executar($sql, [$id]);
-    }
-}*/
-
-
 namespace dao\mysql;
 
 use dao\IFilmeDAO;
-use generic\MysqlSingleton; // <-- Importante: use a classe Singleton
+use generic\MysqlSingleton;
+use service\Filme; // Importa a classe Filme do namespace service
 use PDO;
 
-// NÃO use "extends MysqlFactory". Apenas implemente a interface.
 class FilmeDAO implements IFilmeDAO {
     
     private MysqlSingleton $banco;
 
-    // O construtor recebe a conexão. Quem vai fornecer é a Factory!
     public function __construct(MysqlSingleton $conexao_banco) {
         $this->banco = $conexao_banco;
     }
     
-    // Seus métodos agora usam a propriedade `$this->banco`
-    public function inserir($filme) {
-        $sql = "INSERT INTO filmes (nome, genero, classificacao, duracao) VALUES (?, ?, ?, ?)";
-        $params = [$filme->getNome(), $filme->getGenero(), $filme->getClassificacao(), $filme->getDuracao()];
+    /**
+     * Corrigido de "adicionar" para "inserir" para bater com a interface.
+     * SQL ajustado para as colunas 'titulo' e 'ano_lancamento'.
+     */
+    public function inserir(Filme $filme): int {
+        $sql = "INSERT INTO filmes (titulo, ano_lancamento) VALUES (?, ?)";
+        $params = [$filme->getTitulo(), $filme->getAnoLancamento()];
         return $this->banco->executeNonQuery($sql, $params);
     }
 
-    public function atualizar($filme) {
-        $sql = "UPDATE filmes SET nome = ?, genero = ?, classificacao = ?, duracao = ? WHERE id = ?";
-        $params = [
-            $filme->getNome(), 
-            $filme->getGenero(), 
-            $filme->getClassificacao(), 
-            $filme->getDuracao(), 
-            $filme->getId() // <-- Pega o ID do objeto
-        ];
-        return $this->banco->executeNonQuery($sql, $params);
-    }
-
-    public function alterar($id, $filme) {
-        $sql = "UPDATE filmes SET nome = ?, genero = ?, classificacao = ?, duracao = ? WHERE id = ?";
-        $params = [
-            $filme->getNome(), 
-            $filme->getGenero(), 
-            $filme->getClassificacao(), 
-            $filme->getDuracao(), 
-            $id // <-- Pega o ID do parâmetro da função
-        ];
+    /**
+     * Método "atualizar" já estava correto na interface.
+     * SQL ajustado para as colunas 'titulo' e 'ano_lancamento'.
+     */
+    public function atualizar(Filme $filme): int {
+        $sql = "UPDATE filmes SET titulo = ?, ano_lancamento = ? WHERE id = ?";
+        $params = [$filme->getTitulo(), $filme->getAnoLancamento(), $filme->getId()];
         return $this->banco->executeNonQuery($sql, $params);
     }
     
-    public function listar() {
-        $sql = "SELECT * FROM filmes";
+    /**
+     * Método "editar" removido pois não está na nova interface.
+     * O método "atualizar" já cobre sua funcionalidade.
+     */
+
+    /**
+     * A assinatura do método agora especifica o tipo de retorno, como na interface.
+     * ATENÇÃO: Retornando um array de OBJETOS Filme, como é a boa prática.
+     */
+    public function buscarTodos(): array {
+        $sql = "SELECT id, titulo, ano_lancamento FROM filmes";
         $stmt = $this->banco->prepared($sql);
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $resultados = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        
+        $arrayDeFilmes = [];
+        foreach ($resultados as $row) {
+            $filme = new Filme();
+            $filme->setId($row['id']);
+            $filme->setTitulo($row['titulo']);
+            $filme->setAnoLancamento($row['ano_lancamento']);
+            $arrayDeFilmes[] = $filme;
+        }
+        return $arrayDeFilmes;
     }
 
-    public function listarId($id) {
-        $sql = "SELECT * FROM filmes WHERE id = ?";
+    /**
+     * O nome do método foi alterado para "buscarPorId" para clareza e padronização.
+     * ATENÇÃO: Retornando um objeto Filme ou null, como a interface exige.
+     */
+    public function buscarPorId(int $id): ?Filme {
+        $sql = "SELECT id, titulo, ano_lancamento FROM filmes WHERE id = ?";
         $stmt = $this->banco->prepared($sql, [$id]);
-        $result = $stmt->fetch(PDO::FETCH_ASSOC);
-        return $result ?: null;
+        $resultado = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if ($resultado) {
+            $filme = new Filme();
+            $filme->setId($resultado['id']);
+            $filme->setTitulo($resultado['titulo']);
+            $filme->setAnoLancamento($resultado['ano_lancamento']);
+            return $filme;
+        }
+        return null;
     }
 
-    public function deletar($id) {
+    /**
+     * A assinatura do método agora especifica o tipo do parâmetro, como na interface.
+     */
+    public function deletar(int $id): int {
         $sql = "DELETE FROM filmes WHERE id = ?";
         return $this->banco->executeNonQuery($sql, [$id]);
     }
