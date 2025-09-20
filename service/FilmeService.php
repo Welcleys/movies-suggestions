@@ -29,14 +29,21 @@ class FilmeService {
     }
     
     public function salvar(Filme $filme): int {
-        if (empty($filme->getTitulo())) {
-            throw new \Exception("O título do filme é obrigatório.");
-        }
-
-        if ($filme->getId()) {
-            return $this->dao->atualizar($filme);
-        } else {
-            return $this->dao->inserir($filme);
-        }
+    // 1. Cláusula de Guarda (Guard Clause) para validação.
+    // Se o título estiver vazio, lança uma exceção e a função para aqui.
+    if (empty($filme->getTitulo())) {
+        throw new \Exception("O título do filme é obrigatório.");
     }
+
+    // 2. Condição para ATUALIZAR (Early Return)
+    // Se o filme já tem um ID, ele é atualizado e a função retorna.
+    if ($filme->getId()) {
+        return $this->dao->atualizar($filme);
+    }
+
+    // 3. Ação Padrão para INSERIR
+    // Se o código chegou até aqui, é porque o filme não tinha ID.
+    // Então, ele é inserido como um novo registro.
+    return $this->dao->salvar($filme);
+}
 }
