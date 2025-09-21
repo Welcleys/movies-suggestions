@@ -16,12 +16,12 @@ class AvaliacaoController {
     
     public function listar() {
         $listaDeAvaliacoes = $this->service->listarTodos();
-        require_once 'public/avaliacao/listar.php';
+        require_once "public/avaliacao/listar.php";
     }
 
     public function excluir(int $id) {
         $this->service->deletar($id);
-        header('Location: index.php?param=avaliacao/listar');
+        header("Location: " . url("avaliacao/listar"));
         exit;
     }
     
@@ -39,25 +39,25 @@ class AvaliacaoController {
         $listaDeCategorias = $categoriaService->listarTodos();
         
         // Passa todas as informações para a view
-        require_once 'public/avaliacao/form.php';
+        require_once "public/avaliacao/form.php";
     }
 
     public function salvar() {
         $avaliacao = new Avaliacao();
-        $avaliacao->setFilmeId((int)($_POST['filme_id'] ?? 0));
-        $avaliacao->setCategoriaId((int)($_POST['categoria_id'] ?? 0));
-        $avaliacao->setNota((int)($_POST['nota'] ?? 0));
+        $avaliacao->setFilmeId((int)($_POST["filme_id"] ?? 0));
+        $avaliacao->setCategoriaId((int)($_POST["categoria_id"] ?? 0));
+        $avaliacao->setNota((int)($_POST["nota"] ?? 0));
         
-        if (isset($_POST['id']) && !empty($_POST['id'])) {
-            $avaliacao->setId((int)$_POST['id']);
+        if (isset($_POST["id"]) && !empty($_POST["id"])) {
+            $avaliacao->setId((int)$_POST["id"]);
         }
         
         $this->service->salvar($avaliacao);
 
         session_start();
-        $_SESSION['mensagem'] = "Avaliação salva com sucesso!";
+        $_SESSION["mensagem"] = "Avaliação salva com sucesso!";
         
-        header('Location: index.php?param=avaliacao/listar');
+        header("Location: " . url("avaliacao/listar"));
         exit;
     }
 

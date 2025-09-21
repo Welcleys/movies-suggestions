@@ -45,13 +45,12 @@ class AvaliacaoDAO implements IAvaliacaoDAO {
         $arrayDeAvaliacoes = [];
         foreach ($resultados as $row) {
             $avaliacao = new Avaliacao();
-            $avaliacao->setId($row['id']);
-            $avaliacao->setFilmeId($row['filme_id']);
-            $avaliacao->setCategoriaId($row['categoria_id']);
-            $avaliacao->setNota($row['nota']);
-            // Preenchendo as propriedades extras
-            $avaliacao->setFilmeTitulo($row['filme_titulo']);
-            $avaliacao->setCategoriaNome($row['categoria_nome']);
+            $avaliacao->setId($row["id"]);
+            $avaliacao->setFilmeId($row["filme_id"]);
+            $avaliacao->setCategoriaId($row["categoria_id"]);
+            $avaliacao->setNota($row["nota"]);
+            $avaliacao->setFilmeTitulo($row["filme_titulo"]);
+            $avaliacao->setCategoriaNome($row["categoria_nome"]);
             $arrayDeAvaliacoes[] = $avaliacao;
         }
         return $arrayDeAvaliacoes;
@@ -64,10 +63,10 @@ class AvaliacaoDAO implements IAvaliacaoDAO {
 
         if ($resultado) {
             $avaliacao = new Avaliacao();
-            $avaliacao->setId($resultado['id']);
-            $avaliacao->setFilmeId($resultado['filme_id']);
-            $avaliacao->setCategoriaId($resultado['categoria_id']);
-            $avaliacao->setNota($resultado['nota']);
+            $avaliacao->setId($resultado["id"]);
+            $avaliacao->setFilmeId($resultado["filme_id"]);
+            $avaliacao->setCategoriaId($resultado["categoria_id"]);
+            $avaliacao->setNota($resultado["nota"]);
             return $avaliacao;
         }
         return null;
@@ -80,10 +79,10 @@ class AvaliacaoDAO implements IAvaliacaoDAO {
 
         if ($resultado) {
             $avaliacao = new \service\Avaliacao();
-            $avaliacao->setId($resultado['id']);
-            $avaliacao->setFilmeId($resultado['filme_id']);
-            $avaliacao->setCategoriaId($resultado['categoria_id']);
-            $avaliacao->setNota($resultado['nota']);
+            $avaliacao->setId($resultado["id"]);
+            $avaliacao->setFilmeId($resultado["filme_id"]);
+            $avaliacao->setCategoriaId($resultado["categoria_id"]);
+            $avaliacao->setNota($resultado["nota"]);
             return $avaliacao;
         }
         return null;
@@ -97,10 +96,10 @@ class AvaliacaoDAO implements IAvaliacaoDAO {
 
         if ($resultado) {
             $avaliacao = new \service\Avaliacao();
-            $avaliacao->setId($resultado['id']);
-            $avaliacao->setFilmeId($resultado['filme_id']);
-            $avaliacao->setCategoriaId($resultado['categoria_id']);
-            $avaliacao->setNota($resultado['nota']);
+            $avaliacao->setId($resultado["id"]);
+            $avaliacao->setFilmeId($resultado["filme_id"]);
+            $avaliacao->setCategoriaId($resultado["categoria_id"]);
+            $avaliacao->setNota($resultado["nota"]);
             return $avaliacao;
         }
         return null;
@@ -113,10 +112,10 @@ class AvaliacaoDAO implements IAvaliacaoDAO {
 
         if ($resultado) {
             $avaliacao = new \service\Avaliacao();
-            $avaliacao->setId($resultado['id']);
-            $avaliacao->setFilmeId($resultado['filme_id']);
-            $avaliacao->setCategoriaId($resultado['categoria_id']);
-            $avaliacao->setNota($resultado['nota']);
+            $avaliacao->setId($resultado["id"]);
+            $avaliacao->setFilmeId($resultado["filme_id"]);
+            $avaliacao->setCategoriaId($resultado["categoria_id"]);
+            $avaliacao->setNota($resultado["nota"]);
             return $avaliacao;
         }
         return null;

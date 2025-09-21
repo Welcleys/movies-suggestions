@@ -39,8 +39,8 @@ class CategoriaDAO implements ICategoriaDAO {
         $arrayDeCategorias = [];
         foreach ($resultados as $row) {
             $categoria = new Categoria();
-            $categoria->setId($row['id']);
-            $categoria->setNome($row['nome']);
+            $categoria->setId($row["id"]);
+            $categoria->setNome($row["nome"]);
             $arrayDeCategorias[] = $categoria;
         }
         return $arrayDeCategorias;
@@ -53,8 +53,8 @@ class CategoriaDAO implements ICategoriaDAO {
 
         if ($resultado) {
             $categoria = new Categoria();
-            $categoria->setId($resultado['id']);
-            $categoria->setNome($resultado['nome']);
+            $categoria->setId($resultado["id"]);
+            $categoria->setNome($resultado["nome"]);
             return $categoria;
         }
         return null;

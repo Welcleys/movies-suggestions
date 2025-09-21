@@ -25,7 +25,7 @@ class FilmeController {
         $listaDeFilmes = $this->service->listarTodos();
         
         // O require_once torna a variável $listaDeFilmes disponível dentro da view
-        require_once 'public/filme/listar.php';
+        require_once "public/filme/listar.php";
     }
 
     /**
@@ -36,7 +36,7 @@ class FilmeController {
         $this->service->deletar($id);
         
         // É uma boa prática redirecionar após uma ação de POST, PUT ou DELETE
-        header('Location: index.php?param=filme/listar');
+        header("Location: " . url("filme/listar"));
         exit; // Garante que o script pare a execução após o redirecionamento
     }
     
@@ -57,7 +57,7 @@ class FilmeController {
         }
         // Carrega a view do formulário. A variável $filme estará disponível lá
         // (seja com os dados do filme ou como null)
-        require_once 'public/filme/form.php';
+        require_once "public/filme/form.php";
     }
 
     /**
@@ -80,10 +80,10 @@ class FilmeController {
         
         // Inicia a sessão e define a mensagem de feedback
         session_start();
-        $_SESSION['mensagem'] = "Filme salvo com sucesso!";
+        $_SESSION["mensagem"] = "Filme salvo com sucesso!";
 
         // 4. Redireciona para a página de listagem
-        header('Location: index.php?param=filme/listar');
+        header("Location: " . url("filme/listar"));
         exit;
     }
 }

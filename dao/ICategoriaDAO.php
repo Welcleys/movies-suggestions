@@ -1,7 +1,7 @@
 <?php
 namespace dao;
 
-use service\Categoria; // Importa nosso novo modelo
+use service\Categoria;
 
 interface ICategoriaDAO {
     public function inserir(Categoria $categoria);

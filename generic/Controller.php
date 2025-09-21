@@ -28,10 +28,10 @@ class Controller
     public function verificarChamadas($rota)
     {
         // Divide a rota da URL em partes. Ex: 'filme/excluir/5' vira ['filme', 'excluir', '5']
-        $partesDaRota = explode('/', $rota);
+        $partesDaRota = explode("/", $rota);
 
         // Define as rotas base que podem ter parâmetros (normalmente com 2 partes)
-        $rotaBase = $partesDaRota[0] . (isset($partesDaRota[1]) ? '/' . $partesDaRota[1] : '');
+        $rotaBase = $partesDaRota[0] . (isset($partesDaRota[1]) ? "/" . $partesDaRota[1] : "");
 
         // Define os parâmetros (tudo que vem depois da rota base)
         $params = count($partesDaRota) > 2 ? array_slice($partesDaRota, 2) : [];
@@ -44,7 +44,7 @@ class Controller
 
             // Cria uma NOVA instância de Acao, passando os parâmetros que encontramos na URL
             $acaoComParams = new Acao(
-                str_replace('Controller', '', substr($acaoBase->classe, 11)), // Pega o nome base da classe, ex: 'Filme'
+                str_replace("Controller", "", substr($acaoBase->classe, 11)), // Pega o nome base da classe, ex: 'Filme'
                 $acaoBase->metodo, // Pega o nome do método, ex: 'excluir'
                 $params            // Adiciona os parâmetros, ex: ['5']
             );

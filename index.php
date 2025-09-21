@@ -1,5 +1,5 @@
 <?php
-define('BASE_URL', '/movies-suggestions/');
+define("BASE_URL", "/movies-suggestions/");
 require_once "generic/Autoload.php";
 
 use generic\Controller;

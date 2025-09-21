@@ -6,7 +6,6 @@
         <?= $_SESSION['mensagem'] ?>
     </div>
 <?php 
-    // Limpa a mensagem para que não apareça de novo
     unset($_SESSION["mensagem"]); 
     endif; 
 ?>

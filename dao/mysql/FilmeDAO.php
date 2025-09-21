@@ -4,7 +4,7 @@ namespace dao\mysql;
 
 use dao\IFilmeDAO;
 use generic\MysqlSingleton;
-use service\Filme; // Importa a classe Filme do namespace service
+use service\Filme;
 use PDO;
 
 class FilmeDAO implements IFilmeDAO
@@ -57,9 +57,9 @@ class FilmeDAO implements IFilmeDAO
         $arrayDeFilmes = [];
         foreach ($resultados as $row) {
             $filme = new Filme();
-            $filme->setId($row['id']);
-            $filme->setTitulo($row['titulo']);
-            $filme->setAnoLancamento($row['ano_lancamento']);
+            $filme->setId($row["id"]);
+            $filme->setTitulo($row["titulo"]);
+            $filme->setAnoLancamento($row["ano_lancamento"]);
             $arrayDeFilmes[] = $filme;
         }
         return $arrayDeFilmes;
@@ -77,9 +77,9 @@ class FilmeDAO implements IFilmeDAO
 
         if ($resultado) {
             $filme = new Filme();
-            $filme->setId($resultado['id']);
-            $filme->setTitulo($resultado['titulo']);
-            $filme->setAnoLancamento($resultado['ano_lancamento']);
+            $filme->setId($resultado["id"]);
+            $filme->setTitulo($resultado["titulo"]);
+            $filme->setAnoLancamento($resultado["ano_lancamento"]);
             return $filme;
         }
         return null;

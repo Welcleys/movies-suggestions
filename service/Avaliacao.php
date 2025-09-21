@@ -6,12 +6,9 @@ class Avaliacao {
     private ?int $filme_id;
     private ?int $categoria_id;
     private ?int $nota;
-    
-    // Propriedades extras para a listagem
     private ?string $filme_titulo;
     private ?string $categoria_nome;
 
-    // ... (construtor, getters e setters para todas as propriedades abaixo) ...
     public function __construct() {
         $this->id = null;
         $this->filme_id = null;

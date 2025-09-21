@@ -14,12 +14,12 @@ class CategoriaController {
     
     public function listar() {
         $listaDeCategorias = $this->service->listarTodos();
-        require_once 'public/categoria/listar.php';
+        require_once "public/categoria/listar.php";
     }
 
     public function excluir(int $id) {
         $this->service->deletar($id);
-        header('Location: index.php?param=categoria/listar');
+        header("Location: " . url("categoria/listar"));
         exit;
     }
     
@@ -32,23 +32,23 @@ class CategoriaController {
                 exit;
             }
         }
-        require_once 'public/categoria/form.php';
+        require_once "public/categoria/form.php";
     }
 
     public function salvar() {
         $categoria = new Categoria();
-        $categoria->setNome($_POST['nome'] ?? '');
+        $categoria->setNome($_POST["nome"] ?? '');
         
-        if (isset($_POST['id']) && !empty($_POST['id'])) {
-            $categoria->setId((int)$_POST['id']);
+        if (isset($_POST["id"]) && !empty($_POST["id"])) {
+            $categoria->setId((int)$_POST["id"]);
         }
         
         $this->service->salvar($categoria);
 
         session_start();
-        $_SESSION['mensagem'] = "Categoria salva com sucesso!";
+        $_SESSION["mensagem"] = "Categoria salva com sucesso!";
         
-        header('Location: index.php?param=categoria/listar');
+        header("Location: " . url("categoria/listar"));
         exit;
     }
 }

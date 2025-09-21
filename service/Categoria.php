@@ -10,7 +10,6 @@ class Categoria {
         $this->nome = null;
     }
 
-    // Getters
     public function getId(): ?int {
         return $this->id;
     }
@@ -18,7 +17,6 @@ class Categoria {
         return $this->nome;
     }
 
-    // Setters
     public function setId(int $id): void {
         $this->id = $id;
     }

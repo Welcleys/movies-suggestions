@@ -12,7 +12,6 @@ class Filme {
         $this->ano_lancamento = null;
     }
 
-    // Getters
     public function getId(): ?int {
         return $this->id;
     }
@@ -23,7 +22,6 @@ class Filme {
         return $this->ano_lancamento;
     }
 
-    // Setters
     public function setId(int $id): void {
         $this->id = $id;
     }
