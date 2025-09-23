@@ -1,14 +1,11 @@
 <?php
 namespace template;
 
-class AvaliacaoTemp implements ITemplate
+class HomeTemp implements ITemplate
 {
-    /**
-     * Gera o cabeçalho completo da página.
-     */
     public function cabecalho()
     {
-        $caminhoBase = "/movies-suggestions";
+         $caminhoBase = "/movies-suggestions";
 
         echo <<<HTML
 <!DOCTYPE html>
@@ -16,7 +13,7 @@ class AvaliacaoTemp implements ITemplate
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Avaliações dos Filmes</title>
+    <title>Sugestões de Filmes - Início</title>
 
     <link rel="stylesheet" href="{$caminhoBase}/public/css/estilos.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
@@ -29,15 +26,13 @@ class AvaliacaoTemp implements ITemplate
 HTML;
     }
 
-    /**
-     * ADICIONADO: Gera o rodapé completo da página e fecha as tags HTML.
-     */
     public function rodape()
     {
         $anoAtual = date('Y');
-
         echo <<<HTML
-    </main> <footer class="site-footer">
+    </main>
+
+    <footer class="site-footer">
         <div class="container">
             <div class="row">
                 <div class="col-12 text-center mt-4">
@@ -53,18 +48,15 @@ HTML;
 HTML;
     }
 
-    /**
-     * ADICIONADO: Monta o layout completo da página, injetando os dados na view.
-     */
     public function layout($caminho, $dados = [])
     {
-        // A função extract() cria as variáveis que a view precisa (ex: $listaDeCategorias)
+        // A página inicial não precisa de dados do banco, então o extract não fará nada, mas mantemos o padrão.
         extract($dados);
 
         $this->cabecalho();
 
-        // O caminho para a view de categoria
-        include $_SERVER['DOCUMENT_ROOT'] . BASE_URL . "public/avaliacao/" . $caminho;
+        // Caminho para a view da home
+        include $_SERVER['DOCUMENT_ROOT'] . BASE_URL . "public/home/" . $caminho;
 
         $this->rodape();
     }

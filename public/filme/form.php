@@ -14,5 +14,7 @@
     <label>Ano de Lançamento:</label><br>
     <input type="number" name="ano_lancamento" value="<?= $isEditing ? htmlspecialchars($filme->getAnoLancamento()) : "" ?>"><br><br>
 
-    <button type="submit">Salvar</button>
+    <button type="submit" class="btn btn-primary">Salvar</button>
+    <a href="<?= url("filme/listar") ?>" class="btn btn-secondary">Cancelar</a>
+
 </form>

@@ -5,18 +5,24 @@ use service\AvaliacaoService;
 use service\FilmeService;
 use service\CategoriaService;
 use service\Avaliacao;
+use template\AvaliacaoTemp; // ADICIONADO: Informa que vamos usar a classe AvaliacaoTemp
+
 
 class AvaliacaoController {
 
     private AvaliacaoService $service;
+    private AvaliacaoTemp $template; // ADICIONADO: Propriedade para guardar nosso template
+
 
     public function __construct() {
         $this->service = new AvaliacaoService();
+        $this->template = new AvaliacaoTemp(); // ADICIONADO: Criamos o objeto que vai renderizar as páginas
+
     }
     
     public function listar() {
         $listaDeAvaliacoes = $this->service->listarTodos();
-        require_once "public/avaliacao/listar.php";
+        $this->template->layout('listar.php', ['listaDeAvaliacoes' => $listaDeAvaliacoes]);
     }
 
     public function excluir(int $id) {
@@ -39,7 +45,11 @@ class AvaliacaoController {
         $listaDeCategorias = $categoriaService->listarTodos();
         
         // Passa todas as informações para a view
-        require_once "public/avaliacao/form.php";
+        $this->template->layout('form.php', [
+            'avaliacao' => $avaliacao,
+            'listaDeFilmes' => $listaDeFilmes,
+            'listaDeCategorias' => $listaDeCategorias
+        ]);
     }
 
     public function salvar() {

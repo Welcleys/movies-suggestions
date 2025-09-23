@@ -30,8 +30,8 @@
     <label>Nota (1 a 10):</label><br>
     <input type="number" name="nota" min="1" max="10" required value="<?= $isEditing ? $avaliacao->getNota() : "" ?>"><br><br>
     
-    <button type="submit">Salvar</button>
-
+    <button type="submit" class="btn btn-primary">Salvar</button>
+    <a href="<?= url("avaliacao/listar") ?>" class="btn btn-secondary">Cancelar</a>
 </form>
 
 <script>

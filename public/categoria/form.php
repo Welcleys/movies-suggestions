@@ -13,5 +13,6 @@ $isEditing = isset($categoria) && $categoria->getId();
     <label>Nome:</label><br>
     <input type="text" name="nome" required value="<?= $isEditing ? htmlspecialchars($categoria->getNome()) : "" ?>"><br><br>
 
-    <button type="submit">Salvar</button>
+    <button type="submit" class="btn btn-primary">Salvar</button>
+    <a href="<?= url("categoria/listar") ?>" class="btn btn-secondary">Cancelar</a>
 </form>

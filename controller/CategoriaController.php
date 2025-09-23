@@ -3,23 +3,26 @@ namespace controller;
 
 use service\CategoriaService;
 use service\Categoria;
+use template\CategoriaTemp; // ADICIONADO: Informa que vamos usar a classe CategoriaTemp
 
 class CategoriaController {
 
     private CategoriaService $service;
+    private CategoriaTemp $template; // ADICIONADO: Propriedade para guardar nosso template
 
     public function __construct() {
         $this->service = new CategoriaService();
+        $this->template = new CategoriaTemp(); // ADICIONADO: Criamos o objeto que vai renderizar as páginas
     }
     
     public function listar() {
         $listaDeCategorias = $this->service->listarTodos();
-        require_once "public/categoria/listar.php";
+        $this->template->layout('listar.php', ['listaDeCategorias' => $listaDeCategorias]);
     }
 
     public function excluir(int $id) {
         $this->service->deletar($id);
-        header("Location: " . url("categoria/listar"));
+        header("Location: " . BASE_URL . "categoria/listar");
         exit;
     }
     
@@ -32,7 +35,7 @@ class CategoriaController {
                 exit;
             }
         }
-        require_once "public/categoria/form.php";
+        $this->template->layout('form.php', ['categoria' => $categoria]);
     }
 
     public function salvar() {
@@ -48,7 +51,7 @@ class CategoriaController {
         session_start();
         $_SESSION["mensagem"] = "Categoria salva com sucesso!";
         
-        header("Location: " . url("categoria/listar"));
+        header("Location: " . BASE_URL . "categoria/listar");
         exit;
     }
 }
