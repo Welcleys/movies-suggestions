@@ -3,9 +3,6 @@ namespace template;
 
 class CategoriaTemp implements ITemplate
 {
-    /**
-     * Gera o cabeçalho completo da página.
-     */
     public function cabecalho()
     {
         $caminhoBase = "/movies-suggestions";
@@ -29,9 +26,6 @@ class CategoriaTemp implements ITemplate
 HTML;
     }
 
-    /**
-     * ADICIONADO: Gera o rodapé completo da página e fecha as tags HTML.
-     */
     public function rodape()
     {
         $anoAtual = date('Y');
@@ -53,17 +47,12 @@ HTML;
 HTML;
     }
 
-    /**
-     * ADICIONADO: Monta o layout completo da página, injetando os dados na view.
-     */
     public function layout($caminho, $dados = [])
     {
-        // A função extract() cria as variáveis que a view precisa (ex: $listaDeCategorias)
         extract($dados);
 
         $this->cabecalho();
 
-        // O caminho para a view de categoria
         include $_SERVER['DOCUMENT_ROOT'] . BASE_URL . "public/categoria/" . $caminho;
 
         $this->rodape();

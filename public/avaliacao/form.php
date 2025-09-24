@@ -35,51 +35,36 @@
 </form>
 
 <script>
-    // Pega os elementos do formulário
+
     const filmeSelect = document.getElementById("filme_select");
     const categoriaSelect = document.getElementById("categoria_select");
     const avaliacaoForm = document.getElementById("avaliacao_form");
-    
-    // --- MUDANÇA 1: Criamos a variável com a URL base aqui ---
-    // O PHP gera a URL uma única vez e a armazena em uma variável JavaScript limpa.
     const urlEndpoint = '<?= url("avaliacao/get-categoria-do-filme") ?>';
 
-    // Adiciona um "ouvinte" para o evento de SUBMISSÃO do formulário
     avaliacaoForm.addEventListener("submit", function() {
-        // Um milissegundo antes de enviar, reabilita o campo de categoria
-        // para que seu valor seja incluído nos dados do POST.
         categoriaSelect.disabled = false;
     });
 
-    // Função que faz a verificação
     async function verificarCategoriaDoFilme() {
         const filmeId = filmeSelect.value;
 
         if (!filmeId) {
-            categoriaSelect.disabled = false; // Habilita se nenhum filme for selecionado
+            categoriaSelect.disabled = false;
             return;
         }
 
-        // --- MUDANÇA 2: Usamos a variável e as crases (`) corretamente ---
-        // A chamada fetch agora usa a variável limpa que criamos.
-        // Note o uso de crases (` `) em vez de aspas (" ") para permitir o ${filmeId}.
         const response = await fetch(`${urlEndpoint}?filme_id=${filmeId}`);
-        
         const data = await response.json();
 
         if (data.categoria_id) {
-            // Se uma categoria foi retornada, seleciona e desabilita o campo
             categoriaSelect.value = data.categoria_id;
             categoriaSelect.disabled = true;
         } else {
-            // Se não, habilita o campo para o usuário escolher
             categoriaSelect.disabled = false;
         }
     }
 
-    // Adiciona o "ouvinte de evento": toda vez que o usuário MUDAR o filme, a função será chamada
     filmeSelect.addEventListener("change", verificarCategoriaDoFilme);
 
-    // Executa a função uma vez quando a página carrega, para o caso de edição
     document.addEventListener("DOMContentLoaded", verificarCategoriaDoFilme);
 </script>

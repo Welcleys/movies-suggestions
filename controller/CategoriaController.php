@@ -3,16 +3,16 @@ namespace controller;
 
 use service\CategoriaService;
 use service\Categoria;
-use template\CategoriaTemp; // ADICIONADO: Informa que vamos usar a classe CategoriaTemp
+use template\CategoriaTemp;
 
 class CategoriaController {
 
     private CategoriaService $service;
-    private CategoriaTemp $template; // ADICIONADO: Propriedade para guardar nosso template
+    private CategoriaTemp $template;
 
     public function __construct() {
         $this->service = new CategoriaService();
-        $this->template = new CategoriaTemp(); // ADICIONADO: Criamos o objeto que vai renderizar as páginas
+        $this->template = new CategoriaTemp();
     }
     
     public function listar() {

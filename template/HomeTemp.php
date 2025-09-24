@@ -50,12 +50,10 @@ HTML;
 
     public function layout($caminho, $dados = [])
     {
-        // A página inicial não precisa de dados do banco, então o extract não fará nada, mas mantemos o padrão.
         extract($dados);
 
         $this->cabecalho();
 
-        // Caminho para a view da home
         include $_SERVER['DOCUMENT_ROOT'] . BASE_URL . "public/home/" . $caminho;
 
         $this->rodape();

@@ -31,8 +31,7 @@ class CategoriaService {
 
         if ($categoria->getId()) {
             return $this->dao->atualizar($categoria);
-        } else {
-            return $this->dao->inserir($categoria);
         }
+        return $this->dao->inserir($categoria);
     }
 }

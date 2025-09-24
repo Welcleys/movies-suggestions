@@ -2,12 +2,11 @@
 namespace generic;
 
 class Acao{
-    public string $classe; // Deixamos público para o Controller poder ler
-    public string $metodo; // Deixamos público para o Controller poder ler
+    public string $classe;
+    public string $metodo;
     private array $params;
 
     public function __construct(string $classe, string $metodo, array $params = []){
-        // Adiciona o sufixo 'Controller' por convenção
         $this->classe = "controller\\" . ucfirst($classe) . "Controller";
         $this->metodo = $metodo;
         $this->params = $params;

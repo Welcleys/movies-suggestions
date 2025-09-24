@@ -3,9 +3,6 @@ namespace template;
 
 class FilmeTemp implements ITemplate
 {
-    /**
-     * Gera o cabeçalho completo da página.
-     */
     public function cabecalho()
     {
         $caminhoBase = "/movies-suggestions";
@@ -29,9 +26,6 @@ class FilmeTemp implements ITemplate
 HTML;
     }
 
-    /**
-     * Gera o rodapé completo da página.
-     */
     public function rodape()
     {
         $anoAtual = date('Y');
@@ -54,19 +48,12 @@ HTML;
 HTML;
     }
 
-    /**
-     * Monta o layout completo da página.
-     */
-    public function layout($caminho, $dados = []) // 1. Renomeamos para $dados e definimos um array vazio como padrão.
+    public function layout($caminho, $dados = [])
     {
-        // 2. ESTA É A LINHA MÁGICA QUE FALTAVA
-        // Ela pega o array ['listaDeFilmes' => ...] e cria a variável $listaDeFilmes
         extract($dados);
 
         $this->cabecalho();
 
-        // O seu caminho de include está CORRETO para a sua estrutura de pastas.
-        // Apenas vamos usar a constante BASE_URL para mais segurança.
         include $_SERVER['DOCUMENT_ROOT'] . BASE_URL . "public/filme/" . $caminho;
 
         $this->rodape();

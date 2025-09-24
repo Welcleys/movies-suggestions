@@ -5,18 +5,18 @@ use service\AvaliacaoService;
 use service\FilmeService;
 use service\CategoriaService;
 use service\Avaliacao;
-use template\AvaliacaoTemp; // ADICIONADO: Informa que vamos usar a classe AvaliacaoTemp
+use template\AvaliacaoTemp;
 
 
 class AvaliacaoController {
 
     private AvaliacaoService $service;
-    private AvaliacaoTemp $template; // ADICIONADO: Propriedade para guardar nosso template
+    private AvaliacaoTemp $template;
 
 
     public function __construct() {
         $this->service = new AvaliacaoService();
-        $this->template = new AvaliacaoTemp(); // ADICIONADO: Criamos o objeto que vai renderizar as páginas
+        $this->template = new AvaliacaoTemp();
 
     }
     
@@ -37,14 +37,12 @@ class AvaliacaoController {
             $avaliacao = $this->service->buscarPorId($id);
         }
         
-        // MUDANÇA IMPORTANTE: Buscar filmes e categorias para os dropdowns
         $filmeService = new FilmeService();
         $listaDeFilmes = $filmeService->listarTodos();
 
         $categoriaService = new CategoriaService();
         $listaDeCategorias = $categoriaService->listarTodos();
         
-        // Passa todas as informações para a view
         $this->template->layout('form.php', [
             'avaliacao' => $avaliacao,
             'listaDeFilmes' => $listaDeFilmes,
@@ -72,15 +70,12 @@ class AvaliacaoController {
     }
 
     public function getCategoriaDoFilme() {
-        // Pega o ID do filme enviado via GET pelo JavaScript
         $filmeId = (int)($_GET['filme_id'] ?? 0);
         
         $categoriaId = $this->service->buscarPrimeiraCategoriaPorFilme($filmeId);
 
-        // Define o cabeçalho como JSON para o navegador entender a resposta
         header('Content-Type: application/json');
         
-        // Retorna um objeto JSON simples. Ex: {"categoria_id": 5} ou {"categoria_id": null}
         echo json_encode(['categoria_id' => $categoriaId]);
     }
 }
