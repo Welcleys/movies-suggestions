@@ -36,6 +36,7 @@ HTML;
             <div class="row">
                 <div class="col-12 text-center mt-4">
                     <p class="copyright-text">&copy; {$anoAtual} - Todos os direitos reservados | Sugestões de Filmes</p>
+                    <p><a href="#">Política de Privacidade</a> | <a href="#">Termos de Uso</a></p>
                 </div>
             </div>
         </div>
