@@ -27,7 +27,7 @@ class AvaliacaoController {
 
     public function excluir(int $id) {
         $this->service->deletar($id);
-        header("Location: " . url("avaliacao/listar"));
+        header("Location: " . BASE_URL . "avaliacao/listar");
         exit;
     }
     
@@ -65,7 +65,7 @@ class AvaliacaoController {
         session_start();
         $_SESSION["mensagem"] = "Avaliação salva com sucesso!";
         
-        header("Location: " . url("avaliacao/listar"));
+        header("Location: " . BASE_URL . "avaliacao/listar");
         exit;
     }
 

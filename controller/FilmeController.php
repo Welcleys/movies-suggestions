@@ -23,7 +23,7 @@ class FilmeController {
     public function excluir(int $id) {
         $this->service->deletar($id);
              
-        header("Location: " . url("filme/listar"));
+        header("Location: " . BASE_URL . "filme/listar");
         exit;
     }
 
