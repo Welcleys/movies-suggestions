@@ -32,7 +32,6 @@ class AvaliacaoDAO implements IAvaliacaoDAO {
     }
     
     public function buscarTodos(): array {
-        // MUDANÇA IMPORTANTE: Usando JOIN para pegar os nomes das tabelas relacionadas
         $sql = "SELECT a.id, a.filme_id, a.categoria_id, a.nota, f.titulo as filme_titulo, c.nome as categoria_nome 
                 FROM avaliacoes a
                 JOIN filmes f ON a.filme_id = f.id
@@ -89,7 +88,6 @@ class AvaliacaoDAO implements IAvaliacaoDAO {
     }
 
     public function buscarPrimeiraPorFilmeId(int $filmeId): ?\service\Avaliacao {
-        // Busca a primeira avaliação encontrada para um filme, ordenada pelo ID
         $sql = "SELECT * FROM avaliacoes WHERE filme_id = ? ORDER BY id ASC LIMIT 1";
         $stmt = $this->banco->prepared($sql, [$filmeId]);
         $resultado = $stmt->fetch(\PDO::FETCH_ASSOC);

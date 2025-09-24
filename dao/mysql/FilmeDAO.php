@@ -17,10 +17,6 @@ class FilmeDAO implements IFilmeDAO
         $this->banco = $conexao_banco;
     }
 
-    /**
-     * Corrigido de "adicionar" para "inserir" para bater com a interface.
-     * SQL ajustado para as colunas 'titulo' e 'ano_lancamento'.
-     */
     public function salvar(Filme $filme): int
     {
         $sql = "INSERT INTO filmes (titulo, ano_lancamento) VALUES (?, ?)";
@@ -28,10 +24,6 @@ class FilmeDAO implements IFilmeDAO
         return $this->banco->executeNonQuery($sql, $params);
     }
 
-    /**
-     * Método "atualizar" já estava correto na interface.
-     * SQL ajustado para as colunas 'titulo' e 'ano_lancamento'.
-     */
     public function atualizar(Filme $filme): int
     {
         $sql = "UPDATE filmes SET titulo = ?, ano_lancamento = ? WHERE id = ?";
@@ -39,15 +31,6 @@ class FilmeDAO implements IFilmeDAO
         return $this->banco->executeNonQuery($sql, $params);
     }
 
-    /**
-     * Método "editar" removido pois não está na nova interface.
-     * O método "atualizar" já cobre sua funcionalidade.
-     */
-
-    /**
-     * A assinatura do método agora especifica o tipo de retorno, como na interface.
-     * ATENÇÃO: Retornando um array de OBJETOS Filme, como é a boa prática.
-     */
     public function buscarTodos(): array
     {
         $sql = "SELECT id, titulo, ano_lancamento FROM filmes";
@@ -65,10 +48,6 @@ class FilmeDAO implements IFilmeDAO
         return $arrayDeFilmes;
     }
 
-    /**
-     * O nome do método foi alterado para "buscarPorId" para clareza e padronização.
-     * ATENÇÃO: Retornando um objeto Filme ou null, como a interface exige.
-     */
     public function buscarPorId(int $id): ?Filme
     {
         $sql = "SELECT id, titulo, ano_lancamento FROM filmes WHERE id = ?";
@@ -85,9 +64,6 @@ class FilmeDAO implements IFilmeDAO
         return null;
     }
 
-    /**
-     * A assinatura do método agora especifica o tipo do parâmetro, como na interface.
-     */
     public function deletar(int $id): int
     {
         $sql = "DELETE FROM filmes WHERE id = ?";
